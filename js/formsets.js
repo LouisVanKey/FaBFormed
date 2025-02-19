@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     // First, get the cardTypeSelect and formContainer when the DOM is fully loaded
     const cardTypeSelect = document.querySelector("#cardType");  // Corrected ID selector
@@ -1159,9 +1160,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Check if the cardTypeSelect exists before adding the event listener
     if (cardTypeSelect) {
-        cardTypeSelect.addEventListener("change", function() {
+        cardTypeSelect.addEventListener("input", function() {
             const selectedType = cardTypeSelect.value;
+            // Set the card type
+            window.card.type = cardTypeSelect.value;
+
             formContainer.innerHTML = formTemplates[selectedType] || "";
+
+            // If the card name input exists
+            let cardNameInput = document.querySelector('.cardName');
+            if (cardNameInput) {
+                // Sync the values
+                cardNameInput.value = window.card.title;
+                cardNameInput.addEventListener('keyup', (evt) => window.card.title = evt.target.value);
+            }
+            // If the pitch input exists
+            let pitchInput = document.querySelector('.cardPitch');
+            if (pitchInput) {
+                // Sync the values
+                pitchInput.value = window.card.pitch;
+                pitchInput.addEventListener("input", (evt) => window.card.pitch = evt.target.value)
+            }
         });
     }
 
